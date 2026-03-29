@@ -9,9 +9,17 @@ import SwiftUI
 
 @main
 struct spamsmsApp: App {
+
+    @StateObject private var container = DependencyContainer()
+    @StateObject private var router = AppRouter()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
+                .environmentObject(container)
+                .environmentObject(router)
+                .modelContainer(container.modelContainer)
+                .task { await container.bootstrap() }
         }
     }
 }
